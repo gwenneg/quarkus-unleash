@@ -5,14 +5,16 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.quarkiverse.unleash.UnleashJsonMapper;
+import io.quarkus.arc.DefaultBean;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
+@DefaultBean
 public class DefaultUnleashJsonMapper implements UnleashJsonMapper {
 
-    private final ObjectMapper objectMapper;
-
-    public DefaultUnleashJsonMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    @Inject
+    ObjectMapper objectMapper;
 
     @Override
     public <T> T fromJson(String json, Class<T> clazz) {

@@ -33,7 +33,6 @@ import io.quarkiverse.unleash.runtime.ToggleVariantProducer;
 import io.quarkiverse.unleash.runtime.ToggleVariantStringProducer;
 import io.quarkiverse.unleash.runtime.UnleashLifecycleManager;
 import io.quarkiverse.unleash.runtime.UnleashRecorder;
-import io.quarkiverse.unleash.runtime.UnleashResourceProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.arc.deployment.GeneratedBeanBuildItem;
 import io.quarkus.arc.deployment.GeneratedBeanGizmoAdaptor;
@@ -123,7 +122,7 @@ public class UnleashProcessor {
         return AdditionalBeanBuildItem.builder()
                 .setUnremovable()
                 .addBeanClasses(UnleashLifecycleManager.class, FeatureToggle.class, FeatureToggleProducer.class,
-                        UnleashResourceProducer.class, ToggleVariantProducer.class, ToggleVariantStringProducer.class)
+                        ToggleVariantProducer.class, ToggleVariantStringProducer.class)
                 .build();
     }
 
@@ -237,13 +236,11 @@ public class UnleashProcessor {
                 .build()) {
 
             FieldCreator unleash = classCreator
-                    .getFieldCreator("unleash", Unleash.class.getName())
-                    .setModifiers(Modifier.PUBLIC); // done to prevent warning during the build
+                    .getFieldCreator("unleash", Unleash.class.getName());
             unleash.addAnnotation(Inject.class);
 
             FieldCreator mapper = classCreator
-                    .getFieldCreator("unleashJsonMapper", UnleashJsonMapper.class.getName())
-                    .setModifiers(Modifier.PUBLIC); // done to prevent warning during the build
+                    .getFieldCreator("unleashJsonMapper", UnleashJsonMapper.class.getName());
             mapper.addAnnotation(Inject.class);
 
             for (DotName name : names) {
